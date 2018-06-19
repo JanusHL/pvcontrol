@@ -1,2 +1,3 @@
 # pvcontrol
-Tools for fv data
+Tools for raspberry pi.
+Some other code utilities to manage data...
