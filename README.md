@@ -6,6 +6,8 @@ I've worked for years with Omron PLC's and I programmed a simple function to rea
 
 2 x Midnite Classic 150
 
+BMV700
+
 Raspberry PI + PVControl: Core of data control
 
 ESP2866: To get some external data and send it to RPI via MQTT.
