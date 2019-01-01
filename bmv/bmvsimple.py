@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # bmvsimple.py - Class --> bmv, para leer el monitor BMV7xx
-# # 28/05/2018 - Paco Arriaza - modificado para ControlFV
+# # 28/05/2018 - JanusHL - modificado para ControlFV
 # Lo simple si bueno 10 veces bueno...
 
 import os, serial, sys
