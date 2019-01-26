@@ -1,8 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#Modbus para DDS238 energy meter
-#Frame format:
+# Modbus para DDS238 energy meter
+# JanusHL - 26/01/2019
+# portions of this module are taken from internet free programs
+#----------------------------------------------------------------
+# Frame format:
 #	Read command（function code 03）
 ### Send Frame
 #   Meter ID 1 byte
@@ -40,7 +43,6 @@ class DDS:
     def CRCcal(self, msg):
         #CRC (Cyclical Redundancy Check) Calculation
         CRC = 0xFFFF
-        #CRC=0xA001
         CRCHi = 0xFF
         CRCLo = 0xFF
         CRCLSB = 0x00
@@ -56,7 +58,7 @@ class DDS:
         CRCLo = (CRC & 0xFF)
         return (CRCLo,CRCHi)
 
-#CRC Valdation
+#CRC Validation
     def CRCvalid(self, resp):
         CRC = self.CRCcal(resp)
         if (CRC[0]==resp[len(resp)-2]) & (CRC[1]==resp[len(resp)-1]):return True
@@ -91,23 +93,20 @@ class DDS:
         #index7 = CRC Hi
         msg[len(msg) - 1] = CRC[1]#CRCHi
 
-    #print msg
-              
     # slave communication
+
         reading=''
         self.ser.write("".join(chr(h) for h in msg))
         resp = 5 + (2 * NumOfRegs)
-        #print "ser.read..."
+        
         time.sleep(0.2)
         while self.ser.inWaiting() > 0:
             reading += self.ser.read(1)
         
-        #print "reading...", len(reading)
         response = [0 for i in range(len(reading))]
         for i in range(0, len(reading)):
             response[i] = ord(reading[i])
        
-        #print "--> ", response, resp
         if len(response)==resp:
             CRCok = self.CRCvalid(response)
             #CRCok = True
@@ -146,9 +145,9 @@ if __name__ == "__main__":
         print("Checking...")
         Data=sensor.readAll()
         #print (sensor.readAll())
-        print "Voltaje: ", Data[0]/10
-        print "Intensidad: ", float(Data[1])/100
-        print "Potencia: ", Data[2]
+        print "Voltage: ", Data[0]/10
+        print "Current: ", float(Data[1])/100
+        print "Power: ", Data[2]
 
     finally:
         sensor.close()		
