@@ -18,3 +18,5 @@ Actually testing some energy meters with modbus interface
 Based in the PVControl development by MLeon and Nikkito.
 
 Some other code utilities to manage data...
+
+You can find me at https://adnsolar.eu
