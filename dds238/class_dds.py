@@ -136,6 +136,8 @@ class DDS:
         #print "ArrayValue: " , len(ArrayValue)
         if len(ArrayValue)>0:
             return ArrayValue
+        else:
+            return(0,0,0)
                 
 #--Main Program
 
