@@ -8,5 +8,5 @@ This is a good tool if you need to know what driver is associated to each /dev/t
 I use the function chkport(driver) in order to know what USB port is using two devices I've conected
 and override to pass data via command line to the main program. This is udefull when the program runs as a service.
 
-![alt text](https://raw.githubusercontent.com/janusHL/pvcontrol/master/tools/test_ports.jpg)
+![alt text](https://raw.githubusercontent.com/janusHL/pvcontrol/master/tools/test_ports.JPG)
 
