@@ -2,7 +2,7 @@
 
 I will be uploading in this section some python tools that I'm using in my RPi.
 
-*test_ports.py
+* test_ports.py
 
 This is a good tool if you need to know what driver is associated to each /dev/ttyUSBx port.
 I use the function chkport(driver) in order to know what USB port is using two devices I've conected
