@@ -1,4 +1,4 @@
-* Python Class and script to read SMA inverters
+# Python Class and script to read SMA inverters
 
 Needs pymodbusTCP module installed in the raspberry PI:
 
