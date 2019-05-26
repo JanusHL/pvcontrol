@@ -13,6 +13,16 @@
 
 """
 # registros comunes al SB (Sunny Boy)
+30201	"Condition:
+	35 = Fault
+	303 = Off
+	307 = Ok
+	455 = Warning"		U32
+30217	"Grid relay/contactor:
+    51 = Closed
+    311 = Open
+    16777213 = Information not available"		U32
+
 30513	Total yield	Wh	U64
 30517	Daily yield	Wh	U64
 30521	Operating time	s	U64
@@ -100,17 +110,21 @@ TCP_IP = '192.168.0.253' # aquí pones la IP del SMA
 UNIT_ID = 3 # unidad modbus del equipo SMA (suele ser 3)
 PORT=502
 
+# definimos los diccionarios de conversion registros 30201 y 30217
+sbstt={35:'Fallo',303:'Off',307:'Ok',455:'Alarma'}
+sbrele={51:'Cerrado',311:'Abierto'}
+
 # definimos los registros que queremos acceder en el SB
 sbRegs={}
-smaDat=namedtuple('smaDat','name addr leng unit')
-sbRegs[0]=smaDat("Estado:", 30201, 2, 'Stt')
-sbRegs[1]=smaDat("Conexión:", 30217, 2, 'on/off')
-sbRegs[2]=smaDat("Producción Total:", 30529, 2, 'Wh')
-sbRegs[3]=smaDat("Producción Diaria:", 30535, 2,'Wh')
-sbRegs[4]=smaDat("Potencia Actual:", 30775, 2,'W')
-sbRegs[5]=smaDat("DC Amps:", 30769, 2,'A')
-sbRegs[6]=smaDat("DC Volt:", 30771, 2,'V')
-sbRegs[7]=smaDat("DC Watts:", 30773, 2,'W')
+smaDat=namedtuple('smaDat','name addr leng unit mult')
+sbRegs[0]=smaDat("Estado:", 30201, 2, 'Stt', 0)
+sbRegs[1]=smaDat("Conexión:", 30217, 2, 'on/off', 0)
+sbRegs[2]=smaDat("Producción Total:", 30529, 2, 'kWh',0.001 ) # Convertido a Kwh
+sbRegs[3]=smaDat("Producción Diaria:", 30535, 2,'kWh',0.001) # Convertido a Kwh
+sbRegs[4]=smaDat("Potencia Actual:", 30775, 2,'W',0.01)
+sbRegs[5]=smaDat("DC Amps:", 30769, 2,'A',0.001)
+sbRegs[6]=smaDat("DC Volt:", 30771, 2,'V',0.001)
+sbRegs[7]=smaDat("DC Watts:", 30773, 2,'W',0.01)
 #sbRegs[8]=smaDat("IBat:", 30843, 2,'A')
 
 def save_data(reg_ini,data):
@@ -125,8 +139,9 @@ try:
         mbus = sma.mbusTCP(UNIT_ID, TCP_IP, PORT)
         mbus.openTCP()
     except:
-        raise
         print ("error Iniciando proceso...")
+        raise
+        
     try:
         #leemos tabla de registros del SB 
         for i in range(0, len(sbRegs)):
@@ -136,9 +151,13 @@ try:
             Translate.u16.h = data[1]
             Translate.u16.l = data[0]
             valor=Translate.uint32
-            print(sbRegs[i].name, valor, sbRegs[i].unit)
-
-            save_data(sbRegs[i].name,valor, sbRegs[i].unit)
+            if i<2:
+                unit=(sbstt.get(valor))                    
+                print(sbRegs[i].name, unit)
+                save_data(sbRegs[i].name,valor, unit)
+            else:
+                print (sbRegs[i].name,valor * sbRegs[i].mult, sbRegs[i].unit )
+                save_data(sbRegs[i].name,valor * sbRegs[i].mult, sbRegs[i].unit )
 
     except:
         print ("error leyendo datos...")

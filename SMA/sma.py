@@ -59,13 +59,18 @@ class mbusTCP:
     # Modbus instance
     #debug=True (quitar cuando no sea necesario el modo debug)
         
-        self.mb_device = ModbusClient(host=TCPaddress, port=PORT, timeout=10, debug=True, unit_id=ID)
-        self.functionCode = 3 # Function Code
-        self.dict = {}
+        try:
+            self.mb_device = ModbusClient(host=TCPaddress, port=PORT, timeout=10, debug=True, unit_id=ID)
+            self.functionCode = 3 # Function Code
+            self.dict = {}
+        except:
+            print (self.mb_device)
+            #return mb_device.last_error()
+            raise   
         
     def read_data(self, reg_ini, num_regs):
         try:
-            data = self.mb_device.read_holding_registers(int(reg_ini-1), num_regs)
+            data = self.mb_device.read_holding_registers(int(reg_ini), num_regs)
             return data
         except:    
             print (self.mb_device.last_error())
@@ -107,8 +112,9 @@ class mbusTCP:
 
     
 if __name__ == '__main__':
-    mbus = mbusTCP(1, '192.168.0.253', 502, 30051-1, 20) #sys.argv[1]
-    data = mbus.read_data()
+    mbus = mbusTCP(1, '192.168.20.41', 502) #sys.argv[1]
+    mbus.openTCP()
+    data = mbus.read_data(30201,2)
     mbus.closeTCP()
     
     print (data)
