@@ -19,6 +19,7 @@ You need to copy in the same folder you have the text #sma.py module:
 * press the button <Solicitar datos> and wait the response to appear in the right
 * If <auto 5 segs> is checked the program read de device every five seconds
 * Log textbox shows messages and errors
+* if you are in "auto" mode, uncheck de button to close connection before exit.
 * Exit the program using the Menu or Ctrl+Q
 
 
