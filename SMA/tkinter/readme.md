@@ -1,5 +1,6 @@
 # New tkinter graphical version
 
+![alt text](https://raw.githubusercontent.com/janusHL/pvcontrol/master/SMA/tkinter/smaon_image.jpg)
 Not tested
 
 Registers now outside the program in the sb_regs.py file. Modify to match your requirements...
