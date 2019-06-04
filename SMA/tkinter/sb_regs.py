@@ -26,5 +26,5 @@ sb_regs = [
 ["DC Volt:", 30771, 2,'V',0.001],
 ["DC Watts:", 30773, 2,'W',0.01],
 ["Temp. Interna:",34113,2,'°C', 1],
-["Frecuencia:",40135,2,'Hz', 1]
+["Frecuencia:",30803,2,'Hz', 1]
 ]
