@@ -232,22 +232,24 @@ class Aplicacion():
 
             try:
                 mbus = sma.mbusTCP(UNIT_ID, TCP_IP, PORT)
-                
-                stt=mbus.openTCP()
-                if stt !=None:
-                    msg="Iniciando proceso..."
-                else:
-                    msg="error de conexión TCP..."
+                mbus.openTCP()
+                #if stt !=None:
+                msg="Iniciando proceso..."
+                #else:
+                #    msg="error de conexión TCP..."
                     
                 self.Tdata.insert(END, msg)
                 self.Tdata.see(END)    
             except:
-                print ("error Iniciando proceso...")
+                msg="error de conexión TCP..."
+                self.Tdata.insert(END, msg)
+                self.Tdata.see(END)
+                #print ("error Iniciando proceso...")
                 raise
                 
             n=0
             automode=1   
-            while automode==1 and stt !=None:
+            while automode==1: #and stt !=None:
                    
                 try:
             #leemos tabla de registros del SB 
