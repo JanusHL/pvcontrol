@@ -21,6 +21,7 @@ try:
     from Tkinter import *
     import ttk
     import tkFont
+    import ScrolledText as tkst
     print('2.x')
 except ImportError:
     # Python 3.x
@@ -222,8 +223,8 @@ class Aplicacion():
     def worker(self):
         # muestreo de datos
         # definimos los diccionarios de conversion registros 30201 y 30217
-        sbstt={35:'Fallo',303:'Off',307:'Ok',455:'Alarma'}
-        sbrele={51:'Cerrado',311:'Abierto'}
+        sbstt={35:'Fallo',303:'Off',307:'Ok',455:'Alarma',51:'Cerrado',311:'Abierto'}
+        #sbrele={51:'Cerrado',311:'Abierto'}
         # definimos los registros que queremos acceder en el SB y los añadimos 
         self.lbdat=[]
         self.lbunit=[]
@@ -231,15 +232,16 @@ class Aplicacion():
         try:
 
             try:
-                mbus = sma.mbusTCP(UNIT_ID, TCP_IP, PORT)
-                mbus.openTCP()
                 #if stt !=None:
                 msg="Iniciando proceso..."
                 #else:
                 #    msg="error de conexión TCP..."
-                    
                 self.Tdata.insert(END, msg)
-                self.Tdata.see(END)    
+                self.Tdata.see(END)
+                mbus = sma.mbusTCP(UNIT_ID, TCP_IP, PORT)
+                stt=mbus.openTCP()
+                if stt == None: sys.exit()
+                
             except:
                 msg="error de conexión TCP..."
                 self.Tdata.insert(END, msg)
