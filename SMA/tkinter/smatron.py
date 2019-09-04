@@ -239,15 +239,14 @@ class Aplicacion():
                 self.Tdata.insert(END, msg)
                 self.Tdata.see(END)
                 mbus = sma.mbusTCP(UNIT_ID, TCP_IP, PORT)
-                stt=mbus.openTCP()
-                if stt == None: sys.exit()
+                mbus.openTCP()
                 
             except:
                 msg="error de conexión TCP..."
                 self.Tdata.insert(END, msg)
                 self.Tdata.see(END)
                 #print ("error Iniciando proceso...")
-                raise
+                #raise
                 
             n=0
             automode=1   
