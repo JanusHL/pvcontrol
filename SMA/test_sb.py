@@ -61,6 +61,9 @@
 30815	Apparent power L1	VA
 30817	Apparent power L2	VA
 30819	Apparent power L3	VA
+34113	Internal temperature	°C	S32
+40135	Nominal frequency	Hz	U32
+
 --------------------------------------------
 # registros comunes al SI (Sunny Island)
 30837	Active power limitation P, active power configuration	W	U32
@@ -111,8 +114,8 @@ UNIT_ID = 3 # unidad modbus del equipo SMA (suele ser 3)
 PORT=502
 
 # definimos los diccionarios de conversion registros 30201 y 30217
-sbstt={35:'Fallo',303:'Off',307:'Ok',455:'Alarma'}
-sbrele={51:'Cerrado',311:'Abierto'}
+sbstt={35:'Fallo',303:'Off',307:'Ok',455:'Alarma', 51:'Cerrado',311:'Abierto'}
+#sbrele={51:'Cerrado',311:'Abierto'}
 
 # definimos los registros que queremos acceder en el SB
 sbRegs={}
@@ -125,7 +128,8 @@ sbRegs[4]=smaDat("Potencia Actual:", 30775, 2,'W',0.01)
 sbRegs[5]=smaDat("DC Amps:", 30769, 2,'A',0.001)
 sbRegs[6]=smaDat("DC Volt:", 30771, 2,'V',0.001)
 sbRegs[7]=smaDat("DC Watts:", 30773, 2,'W',0.01)
-#sbRegs[8]=smaDat("IBat:", 30843, 2,'A')
+sbRegs[8]=smaDat("Temp. Interna:",34113,2,'°C', 1)
+sbRegs[9]=smaDat("Frecuencia:",40135,2,'Hz', 1)
 
 def save_data(reg_ini,data):
     f=open("datos_sma.txt","a")
@@ -154,10 +158,10 @@ try:
             if i<2:
                 unit=(sbstt.get(valor))                    
                 print(sbRegs[i].name, unit)
-                save_data(sbRegs[i].name,valor, unit)
+                #save_data(sbRegs[i].name,valor, unit)
             else:
                 print (sbRegs[i].name,valor * sbRegs[i].mult, sbRegs[i].unit )
-                save_data(sbRegs[i].name,valor * sbRegs[i].mult, sbRegs[i].unit )
+                #save_data(sbRegs[i].name,valor * sbRegs[i].mult, sbRegs[i].unit )
 
     except:
         print ("error leyendo datos...")
