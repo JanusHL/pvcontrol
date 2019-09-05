@@ -102,6 +102,8 @@ class Aplicacion():
         self.sbRegs={}
         smaDat=namedtuple('smaDat','name addr leng unit mult')
         self.labels=[]
+        self.lbdat=[]
+        self.lbunit=[]
 
         #Registros a leer en fichero externo sd_regs.py
         from sb_regs import sb_regs
@@ -110,6 +112,11 @@ class Aplicacion():
             self.sbRegs[i]=smaDat(row[0], row[1], row[2], row[3], row[4])
             self.labels.append(ttk.Label(self.raiz, width=25, font=fontt, relief=GROOVE, text=row[0]))
             self.labels[i].grid(column=0, row=i+1, padx=5, sticky=SW)
+            
+            self.lbdat.append(ttk.Label(self.raiz, width=8, font=self.fontr, anchor=E,relief=SUNKEN,text=''))
+            self.lbdat[i].grid(column=1, row=i+1, sticky="nw")
+            self.lbunit.append(ttk.Label(self.raiz, width=8, font=self.fontr, anchor=W,text=self.sbRegs[i].unit))
+            self.lbunit[i].grid(column=2, row=i+1, sticky="w")
             i=i+1
             
          # botón enviar comando
@@ -226,8 +233,8 @@ class Aplicacion():
         sbstt={35:'Fallo',303:'Off',307:'Ok',455:'Alarma',51:'Cerrado',311:'Abierto'}
         #sbrele={51:'Cerrado',311:'Abierto'}
         # definimos los registros que queremos acceder en el SB y los añadimos 
-        self.lbdat=[]
-        self.lbunit=[]
+        #self.lbdat=[]
+        #self.lbunit=[]
 
         try:
 
@@ -249,14 +256,15 @@ class Aplicacion():
                 #raise
                 
             n=0
-            automode=1   
+            automode=1  
             while automode==1: #and stt !=None:
                    
                 try:
-            #leemos tabla de registros del SB 
+            #leemos tabla de registros del SB
+                    
                     for i in range(0, len(self.sbRegs)):
                         data = mbus.read_data(self.sbRegs[i].addr, self.sbRegs[i].leng)
-                        #data=[0x00,0xFA]
+                        #data=[0x00,0xFA + n]
                         Translate=c2()
                         Translate.u16.h = data[1]
                         Translate.u16.l = data[0]
@@ -270,12 +278,15 @@ class Aplicacion():
                             unit=valor * self.sbRegs[i].mult
                             #save_data(sbRegs[i].name,valor * sbRegs[i].mult, sbRegs[i].unit )
                         
-                        self.lbdat.append(ttk.Label(self.raiz, width=8, font=self.fontr, anchor=E,relief=SUNKEN,text=str(unit)))
-                        self.lbdat[i].grid(column=1, row=i+1, sticky="nw")
+                        #self.lbdat.append(ttk.Label(self.raiz, width=8, font=self.fontr, anchor=E,relief=SUNKEN,text=str(unit)))
+                        #self.lbdat[i].grid(column=1, row=i+1, sticky="nw")
+                        
+                        self.lbdat[i].configure(text=str(unit))
                          
-                        self.lbunit.append(ttk.Label(self.raiz, width=8, font=self.fontr, anchor=W,text=self.sbRegs[i].unit))
-                        self.lbunit[i].grid(column=2, row=i+1, sticky="w")
-                         
+                        #self.lbunit.append(ttk.Label(self.raiz, width=8, font=self.fontr, anchor=W,text=self.sbRegs[i].unit))
+                        #self.lbunit[i].grid(column=2, row=i+1, sticky="w")
+                        
+                        self.lbunit[i].configure(text=self.sbRegs[i].unit) 
 
                 except:
                     print ("error leyendo datos...")
