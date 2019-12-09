@@ -1,4 +1,4 @@
-* Python Class to read Growatt modbus registers
+* Python Class for read Growatt modbus registers
 
 Registers:
 - Status
