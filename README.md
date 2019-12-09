@@ -6,13 +6,17 @@ I've worked for years with Omron PLC's and I programmed a simple function to rea
 
 2 x Midnite Classic 150
 
+1 x Growatt 1000S Grid Inverter
+
 BMV700
+
+DDS238 energy meter
 
 Raspberry PI + PVControl: Core of data control
 
 ESP2866: To get some external data and send it to RPI via MQTT.
 
-Actually testing some energy meters with modbus interface
+Currently resting... ;)
 
 # Tools for raspberry pi.
 Based in the PVControl development by MLeon and Nikkito.
